@@ -76,20 +76,20 @@ public class Vector {
         this.z *= n;
     }
 
-    /* Devides */
-    public void devide(Vector other) {
+    /* divides */
+    public void divide(Vector other) {
         this.x /= other.x;
         this.y /= other.y;
         this.z /= other.z;
     }
 
-    public void devide(float x, float y, float z) {
+    public void divide(float x, float y, float z) {
         this.x /= x;
         this.y /= y;
         this.z /= z;
     }
 
-    public void devide(float n) {
+    public void divide(float n) {
         this.x /= n;
         this.y /= n;
         this.z /= n;

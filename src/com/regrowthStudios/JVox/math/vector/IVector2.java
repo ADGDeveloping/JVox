@@ -65,18 +65,18 @@ public class IVector2 {
         this.y *= n;
     }
 
-    /* Devides */
-    public void devide(IVector2 other) {
+    /* divides */
+    public void divide(IVector2 other) {
         this.x /= other.x;
         this.y /= other.y;
     }
 
-    public void devide(int x, int y) {
+    public void divide(int x, int y) {
         this.x /= x;
         this.y /= y;
     }
 
-    public void devide(int n) {
+    public void divide(int n) {
         this.x /= n;
         this.y /= n;
     }

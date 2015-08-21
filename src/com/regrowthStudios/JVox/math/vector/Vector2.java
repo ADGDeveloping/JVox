@@ -65,18 +65,18 @@ public class Vector2 {
         this.y *= n;
     }
 
-    /* Devides */
-    public void devide(Vector2 other) {
+    /* divides */
+    public void divide(Vector2 other) {
         this.x /= other.x;
         this.y /= other.y;
     }
 
-    public void devide(float x, float y) {
+    public void divide(float x, float y) {
         this.x /= x;
         this.y /= y;
     }
 
-    public void devide(float n) {
+    public void divide(float n) {
         this.x /= n;
         this.y /= n;
     }

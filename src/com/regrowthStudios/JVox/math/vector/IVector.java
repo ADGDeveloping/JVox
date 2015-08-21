@@ -76,20 +76,20 @@ public class IVector {
         this.z *= n;
     }
 
-    /* Devides */
-    public void devide(IVector other) {
+    /* divides */
+    public void divide(IVector other) {
         this.x /= other.x;
         this.y /= other.y;
         this.z /= other.z;
     }
 
-    public void devide(int x, int y, int z) {
+    public void divide(int x, int y, int z) {
         this.x /= x;
         this.y /= y;
         this.z /= z;
     }
 
-    public void devide(int n) {
+    public void divide(int n) {
         this.x /= n;
         this.y /= n;
         this.z /= n;
