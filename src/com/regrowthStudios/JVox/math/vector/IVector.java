@@ -76,7 +76,7 @@ public class IVector {
         this.z *= n;
     }
 
-    /* divides */
+    /* Divides */
     public void divide(IVector other) {
         this.x /= other.x;
         this.y /= other.y;

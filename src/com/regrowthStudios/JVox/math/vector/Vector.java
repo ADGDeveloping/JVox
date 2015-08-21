@@ -76,7 +76,7 @@ public class Vector {
         this.z *= n;
     }
 
-    /* divides */
+    /* Divides */
     public void divide(Vector other) {
         this.x /= other.x;
         this.y /= other.y;

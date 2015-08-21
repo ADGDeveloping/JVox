@@ -49,4 +49,9 @@ public class Window {
             System.exit(1);
         }
     }
+    
+    public IVector2 getDimensions()
+    {
+        return this.windowDims;
+    }
 }
