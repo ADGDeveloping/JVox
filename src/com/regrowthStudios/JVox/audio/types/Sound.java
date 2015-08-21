@@ -7,7 +7,7 @@ public class Sound {
      * Base class for all sound extensions.
      */
     protected SoundSystem soundSystem = null;
-    protected String sourceName, fileLocation;
+    protected String sourceName, fileLocation, fileName;
 
     public void setSoundSystem(SoundSystem ss) {
         this.soundSystem = ss;

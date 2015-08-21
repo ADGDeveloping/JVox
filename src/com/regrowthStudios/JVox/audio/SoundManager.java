@@ -2,12 +2,38 @@ package com.regrowthStudios.JVox.audio;
 
 import java.util.HashMap;
 
+import paulscode.sound.SoundSystem;
+import paulscode.sound.SoundSystemConfig;
+import paulscode.sound.SoundSystemException;
+import paulscode.sound.codecs.CodecJOgg;
+import paulscode.sound.codecs.CodecWav;
+import paulscode.sound.libraries.LibraryJavaSound;
+import paulscode.sound.libraries.LibraryLWJGLOpenAL;
+
 public class SoundManager {
     /**
      * This is the sound manager, used to manage sounds and soundpools from
      * external locations
      */
     private HashMap<String, SoundPool> poolMap = new HashMap<>();
+    private SoundSystem soundSystem = null;
+
+    public void init() {
+        try {
+            SoundSystemConfig.addLibrary(LibraryLWJGLOpenAL.class);
+            SoundSystemConfig.addLibrary(LibraryJavaSound.class);
+            SoundSystemConfig.setCodec("wav", CodecWav.class);
+            SoundSystemConfig.setCodec("ogg", CodecJOgg.class);
+        } catch (SoundSystemException e) {
+            e.printStackTrace();
+        }
+
+        this.soundSystem = new SoundSystem();
+    }
+
+    public SoundSystem getSoundSystem() {
+        return this.soundSystem;
+    }
 
     /* Map Functions */
     public boolean addSoundPool(String key, SoundPool value) {
