@@ -40,7 +40,7 @@ public class DVector4 {
         this.x += n;
         this.y += n;
         this.z += n;
-        this.w += w;
+        this.w += n;
     }
 
     /* Subs */
