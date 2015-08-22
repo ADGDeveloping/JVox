@@ -7,13 +7,13 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import com.regrowthStudios.JVox.graphics.SpriteBatch;
 import com.regrowthStudios.JVox.math.vector.IVector2;
-import com.regrowthStudios.JVox.math.vector.IVector4;
+import com.regrowthStudios.JVox.math.vector.Vector4;
 import com.regrowthStudios.JVox.utils.EventUtils.EventState;
 import com.regrowthStudios.JVox.utils.EventUtils.MouseEvents;
 
 public class WidgetContainer {
     private SpriteBatch spriteBatch = null;
-    private IVector4 bbox = new IVector4(0);
+    private Vector4 bbox = new Vector4(0);
     private int eventState = EventState.NONE;
 
     public SpriteBatch getSpriteBatch() {
@@ -28,16 +28,16 @@ public class WidgetContainer {
         return this.eventState;
     }
 
-    public void setBounds(IVector4 bounds) {
+    public void setBounds(Vector4 bounds) {
         this.bbox = bounds;
     }
 
-    public IVector4 getBounds() {
+    public Vector4 getBounds() {
         return this.bbox;
     }
 
     // Override
-    public void init(IVector4 bbox) {
+    public void init(Vector4 bbox) {
         this.bbox = bbox;
         this.spriteBatch = new SpriteBatch();
 

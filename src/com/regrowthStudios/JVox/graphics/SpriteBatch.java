@@ -7,66 +7,75 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 
-import com.regrowthStudios.JVox.math.vector.IVector4;
+import com.regrowthStudios.JVox.math.vector.Vector4;
 import com.regrowthStudios.JVox.utils.VBOUtils;
 
 public class SpriteBatch {
     private int VBOID, TBOID, IBOID, VAOID;
-    public IVector4 bbox = null;
+    public Vector4 bbox = null;
     public int sx, sy, ex, ey;
     public Texture texture;
     public boolean usesVBO = false;
 
-    public void init(IVector4 bbox) {
+    public void init(Vector4 bbox) {
         this.bbox = bbox;
 
-        byte[] idata = { 0, 1, 2, 2, 3, 0 };
-        float[] vdata = { bbox.x, bbox.y, 0, bbox.x + bbox.z, bbox.y, 0, bbox.x + bbox.z, bbox.y + bbox.w, 0, bbox.x,
-                bbox.y + bbox.w, 0 };
-        float[] tdata = { sx, sy, texture.getWidth(), sy, texture.getWidth(), texture.getHeight(), sx, texture.getHeight() };
-
-        VAOID = VBOUtils.createVAOID();
-        VBOUtils.bindArray(VAOID);
-
+        if(usesVBO)
         {
-            FloatBuffer fb = BufferUtils.createFloatBuffer(12);
-            fb.put(vdata);
-            fb.flip();
+            byte[] idata = { 0, 1, 2, 2, 3, 0 };
+            float[] vdata = { bbox.x, bbox.y, 0, bbox.x + bbox.z, bbox.y, 0, bbox.x + bbox.z, bbox.y + bbox.w, 0, bbox.x,
+                    bbox.y + bbox.w, 0 };
+            float[] tdata = { sx, sy, texture.getWidth(), sy, texture.getWidth(), texture.getHeight(), sx, texture.getHeight() };
 
-            VBOID = VBOUtils.createVBOID();
+            VAOID = VBOUtils.createVAOID();
+            VBOUtils.bindArray(VAOID);
 
-            VBOUtils.bindBuffer(VBOID);
-            VBOUtils.bufferData(VBOID, fb);
-            GL11.glVertexPointer(3, GL11.GL_FLOAT, 0, 0);
-            VBOUtils.bindBuffer(0);
+            {
+                FloatBuffer fb = BufferUtils.createFloatBuffer(12);
+                fb.put(vdata);
+                fb.flip();
+
+                VBOID = VBOUtils.createVBOID();
+
+                VBOUtils.bindBuffer(VBOID);
+                VBOUtils.bufferData(VBOID, fb);
+                GL11.glVertexPointer(3, GL11.GL_FLOAT, 0, 0);
+                VBOUtils.bindBuffer(0);
+                
+                fb.clear();
+            }
+
+            {
+                FloatBuffer fb = BufferUtils.createFloatBuffer(8);
+                fb.put(tdata);
+                fb.flip();
+
+                TBOID = VBOUtils.createVBOID();
+
+                VBOUtils.bindBuffer(TBOID);
+                VBOUtils.bufferData(TBOID, fb);
+                GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0);
+                VBOUtils.bindBuffer(0);
+                
+                fb.clear();
+            }
+
+            {
+                ByteBuffer bb = BufferUtils.createByteBuffer(6);
+                bb.put(idata);
+                bb.flip();
+
+                IBOID = VBOUtils.createVBOID();
+
+                VBOUtils.bindElementBuffer(IBOID);
+                VBOUtils.bufferElementData(IBOID, bb);
+                VBOUtils.bindElementBuffer(0);
+                
+                bb.clear();
+            }
+
+            VBOUtils.bindArray(0);
         }
-
-        {
-            FloatBuffer fb = BufferUtils.createFloatBuffer(8);
-            fb.put(tdata);
-            fb.flip();
-
-            TBOID = VBOUtils.createVBOID();
-
-            VBOUtils.bindBuffer(TBOID);
-            VBOUtils.bufferData(TBOID, fb);
-            GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0);
-            VBOUtils.bindBuffer(0);
-        }
-
-        {
-            ByteBuffer bb = BufferUtils.createByteBuffer(6);
-            bb.put(idata);
-            bb.flip();
-
-            IBOID = VBOUtils.createVBOID();
-
-            VBOUtils.bindElementBuffer(IBOID);
-            VBOUtils.bufferElementData(IBOID, bb);
-            VBOUtils.bindElementBuffer(0);
-        }
-
-        VBOUtils.bindArray(0);
     }
 
     public void render() {
@@ -98,5 +107,13 @@ public class SpriteBatch {
             GL11.glVertex2f(bbox.x, bbox.y + bbox.w);
             GL11.glEnd();
         }
+    }
+    
+    public void destroy()
+    {
+        VBOUtils.deleteBuffer(IBOID);
+        VBOUtils.deleteBuffer(VBOID);
+        VBOUtils.deleteBuffer(TBOID);
+        VBOUtils.deleteArray(VAOID);
     }
 }

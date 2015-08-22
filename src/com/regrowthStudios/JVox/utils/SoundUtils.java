@@ -7,7 +7,7 @@ public class SoundUtils {
         public static int PRIORITY = 0x02;
 
         public static boolean checkFor(int flags, int flag) {
-            return (flags & flag) != 0;
+            return (flags & flag) == flag;
         }
     }
 }
