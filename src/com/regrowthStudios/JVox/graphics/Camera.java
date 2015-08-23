@@ -21,7 +21,6 @@ public class Camera {
         matrix = new Matrix4();
 
         orthoMatrix.setToOrtho(0.0, screenWidth, 0.0, screenHeight, 0.0, 1000.0);
-        
     }
     
     public void update() {
@@ -41,7 +40,6 @@ public class Camera {
         y /= scaleY;
         x += this.x;
         y += this.y;
-        System.out.printf("%f %f\n", x, y);
         return new Vector(x, y);
     }
     

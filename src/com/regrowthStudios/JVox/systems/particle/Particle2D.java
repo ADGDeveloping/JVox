@@ -9,7 +9,7 @@ public class Particle2D {
     private float vx, vy;
     private float sx, sy;
     public int maxLife, currentLife;
-    private int texture;
+    private Texture texture;
     private byte[] color = new byte[4];
 
     public Particle2D() {
@@ -22,7 +22,7 @@ public class Particle2D {
         this.vy = vy;
         this.sx = sx;
         this.sy = sy;
-        texture = t.getTextureID();
+        texture = t;
         color[0] = (byte) 255;
         color[1] = (byte) 255;
         color[2] = (byte) 255;
@@ -35,6 +35,6 @@ public class Particle2D {
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(texture, x, y, sx, sy, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, color);
+        batch.draw(texture.getTextureID(), x + sx * 0.5f, y + sy * 0.5f, sx, sy, 0.0f, 0.0f, texture.getWidth(), texture.getHeight(), 0.0f, color);
     }
 }

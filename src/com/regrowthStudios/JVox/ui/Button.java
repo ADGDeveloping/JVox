@@ -38,7 +38,7 @@ public class Button extends WidgetContainer {
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch.draw(texture.getTextureID(), (float) bbox.x, (float) bbox.y, (float) bbox.z, (float) bbox.w, 0.0f, 0.0f,
+        batch.draw(texture.getTextureID(), (float)bbox.x + (float)bbox.z * 0.5f, (float) bbox.y + (float)bbox.w * 0.5f, (float) bbox.z, (float) bbox.w, 0.0f, 0.0f,
                 texture.getWidth(), texture.getHeight(), 0.0f, color);
     }
 }
