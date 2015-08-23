@@ -1,25 +1,44 @@
 package com.regrowthStudios.JVox.ui;
 
-import org.newdawn.slick.opengl.Texture;
+import java.io.IOException;
 
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
+
+import com.regrowthStudios.JVox.graphics.SpriteBatch;
 import com.regrowthStudios.JVox.math.Vector;
-import com.regrowthStudios.JVox.math.Vector4;
 import com.regrowthStudios.JVox.utils.EventUtils.EventState;
-import com.regrowthStudios.JVox.utils.math.VectorHelper;
 
 public class Button extends WidgetContainer {
     public Texture upTexture, downTexture;
+    public Texture texture;
+
+    public Button() {
+        try {
+            upTexture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("data/textures/up.png"));
+            downTexture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("data/textures/down.png"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        texture = upTexture;
+    }
 
     @Override
     public void update(Vector mouseMove, Vector mousePos) {
         super.update(mouseMove, mousePos);
 
         if (EventState.checkFor(this.getEventState(), EventState.DOWN_LEFT)) {
-       //     this.getSpriteBatch().texture = downTexture;
-            
-            this.setBounds(VectorHelper.add(this.getBounds(), new Vector4(mouseMove.x, mouseMove.y, 0, 0)));
+            texture = downTexture;
         } else {
-         //   this.getSpriteBatch().texture = upTexture;
+            texture = upTexture;
         }
+    }
+
+    @Override
+    public void draw(SpriteBatch batch) {
+        batch.draw(texture.getTextureID(), (float) bbox.x, (float) bbox.y, (float) bbox.z, (float) bbox.w, 0.0f, 0.0f,
+                texture.getWidth(), texture.getHeight(), 0.0f, color);
     }
 }

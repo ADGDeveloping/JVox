@@ -2,6 +2,7 @@ package com.regrowthStudios.JVox.graphics;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.DoubleBuffer;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
@@ -12,6 +13,7 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 
+import com.regrowthStudios.JVox.math.Matrix4;
 import com.regrowthStudios.JVox.utils.VBOUtils;
 
 /**
@@ -74,6 +76,8 @@ public class SpriteBatch {
     // Registers a glyph
     public void draw(int texture, float x, float y, float w, float h, float u, float v, float uw, float vw, float angle,
             byte color[]) {
+        v += vw;
+        vw = -vw;
         SpriteBatchGlyph glyph = new SpriteBatchGlyph();
         glyph.texture = texture;
         glyph.x = x;
@@ -98,7 +102,7 @@ public class SpriteBatch {
     }
 
     // Renders to the screen
-    public void render(/* MATRIX */) {
+    public void render(Camera camera) {
         // Bind shader
         GL20.glUseProgram(shader.programID);
 
@@ -106,9 +110,16 @@ public class SpriteBatch {
         // Upload uniforms
         GL20.glUniform1i(m_textureHandle, 0);
 
-        float identityMatrix[] = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
+        Matrix4 mat = camera.getCameraMatrix();
+        
+        java.nio.DoubleBuffer dbuf = BufferUtils.createDoubleBuffer(16);
+        mat.get(dbuf);
+        
+        float m[] = { (float)dbuf.get(0), (float)dbuf.get(1), (float)dbuf.get(2), (float)dbuf.get(3), (float)dbuf.get(4),
+                (float)dbuf.get(5), (float)dbuf.get(6), (float)dbuf.get(7), (float)dbuf.get(8), (float)dbuf.get(9), (float)dbuf.get(10),
+                (float)dbuf.get(11), (float)dbuf.get(12), (float)dbuf.get(13), (float)dbuf.get(14), (float)dbuf.get(15) };
         java.nio.FloatBuffer tMatrix = BufferUtils.createFloatBuffer(16);
-        tMatrix.put(identityMatrix);
+        tMatrix.put(m);
         tMatrix.flip();
 
         GL20.glUniformMatrix4(m_MVPMatrixHandle, false, tMatrix);

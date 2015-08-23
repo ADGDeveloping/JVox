@@ -13,34 +13,17 @@ import com.regrowthStudios.JVox.utils.EventUtils.EventState;
 import com.regrowthStudios.JVox.utils.EventUtils.MouseEvents;
 
 public class WidgetContainer {
-    private Vector4 bbox = new Vector4();
+    protected Vector4 bbox = new Vector4();
     private int eventState = EventState.NONE;
-    private Texture texture;
     public byte color[] = new byte[4];
 
     public int getEventState() {
         return this.eventState;
     }
 
-    public void setBounds(Vector4 bounds) {
-        this.bbox = bounds;
-    }
-
-    public Vector4 getBounds() {
-        return this.bbox;
-    }
-
     // Override
     public void init(Vector4 bbox) {
         this.bbox = bbox;
-        
-        try {
-            texture = TextureLoader.getTexture("PNG",
-                      ResourceLoader.getResourceAsStream("data/textures/test.png"));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         
         // Set color
         color[0] = (byte)255;
@@ -50,7 +33,7 @@ public class WidgetContainer {
     }
 
     public void draw(SpriteBatch batch) {
-        batch.draw(texture.getTextureID(), (float)bbox.x, (float)bbox.y, (float)bbox.z, (float)bbox.w, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, color);
+        // Empty
     }
 
     public void update(Vector mouseMove, Vector mousePos) {
