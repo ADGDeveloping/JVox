@@ -2,6 +2,7 @@ package com.regrowthStudios.JVox.ui;
 
 import java.io.IOException;
 
+import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
@@ -12,17 +13,10 @@ import com.regrowthStudios.JVox.utils.EventUtils.EventState;
 import com.regrowthStudios.JVox.utils.EventUtils.MouseEvents;
 
 public class WidgetContainer {
-    private SpriteBatch spriteBatch = null;
     private Vector4 bbox = new Vector4(0);
     private int eventState = EventState.NONE;
-
-    public SpriteBatch getSpriteBatch() {
-        return this.spriteBatch;
-    }
-
-    public void setSpriteBatch(SpriteBatch sb) {
-        this.spriteBatch = sb;
-    }
+    private Texture texture;
+    public byte color[] = new byte[4];
 
     public int getEventState() {
         return this.eventState;
@@ -39,20 +33,24 @@ public class WidgetContainer {
     // Override
     public void init(Vector4 bbox) {
         this.bbox = bbox;
-        this.spriteBatch = new SpriteBatch();
-
+        
         try {
-            this.spriteBatch.texture = TextureLoader.getTexture("PNG",
-                    ResourceLoader.getResourceAsStream("data/textures/test.png"));
+            texture = TextureLoader.getTexture("PNG",
+                      ResourceLoader.getResourceAsStream("data/textures/test.png"));
         } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-        this.spriteBatch.init(bbox);
+        
+        // Set color
+        color[0] = (byte)255;
+        color[1] = (byte)255;
+        color[2] = (byte)255;
+        color[3] = (byte)255;
     }
 
-    public void draw() {
-        this.spriteBatch.render();
+    public void draw(SpriteBatch batch) {
+        batch.draw(texture.getTextureID(), bbox.x, bbox.y, bbox.z, bbox.w, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, color);
     }
 
     public void update(IVector2 mouseMove, IVector2 mousePos) {

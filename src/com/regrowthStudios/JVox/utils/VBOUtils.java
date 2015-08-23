@@ -15,12 +15,12 @@ public class VBOUtils {
         return GL30.glGenVertexArrays();
     }
 
-    public static void bufferData(int id, FloatBuffer buffer) {
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
+    public static void bufferData(FloatBuffer buffer, int bufferUsage) {
+        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, bufferUsage);
     }
 
-    public static void bufferElementData(int id, ByteBuffer buffer) {
-        GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
+    public static void bufferElementData(ByteBuffer buffer, int bufferUsage) {
+        GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, bufferUsage);
     }
 
     public static void bindArray(int id) {

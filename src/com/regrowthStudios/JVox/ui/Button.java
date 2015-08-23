@@ -13,11 +13,11 @@ public class Button extends WidgetContainer {
         super.update(mouseMove, mousePos);
 
         if (EventState.checkFor(this.getEventState(), EventState.DOWN_LEFT)) {
-            this.getSpriteBatch().texture = downTexture;
+       //     this.getSpriteBatch().texture = downTexture;
 
             this.getBounds().add(mouseMove.x, mouseMove.y, 0, 0);
         } else {
-            this.getSpriteBatch().texture = upTexture;
+         //   this.getSpriteBatch().texture = upTexture;
         }
     }
 }

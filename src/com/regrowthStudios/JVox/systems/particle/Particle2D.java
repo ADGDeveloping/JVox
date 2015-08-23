@@ -7,38 +7,37 @@ import com.regrowthStudios.JVox.math.vector.Vector2;
 import com.regrowthStudios.JVox.math.vector.Vector4;
 
 public class Particle2D {
-    private Vector2 position, velocity;
-    private SpriteBatch spriteBatch = null;
-    public boolean base = false;
-
+    public float x, y;
+    private float vx, vy;
+    private float sx, sy;
     public int maxLife, currentLife;
+    private int texture;
+    private byte[] color = new byte[4];
 
     public Particle2D() {
     }
 
-    public void init(Texture t, Vector2 position, Vector2 velocity) {
-        this.setPosition(position);
-        this.velocity = velocity;
-
-        this.spriteBatch = new SpriteBatch();
-        this.spriteBatch.texture = t;
-        this.spriteBatch.init(new Vector4(this.getPosition().x, this.getPosition().y, 5, 5));
+    public void init(Texture t, float x, float y, float vx, float vy, float sx, float sy) {
+        this.x = x;
+        this.y = y;
+        this.vx = vx;
+        this.vy = vy;
+        this.sx = sx;
+        this.sy = sy;
+        texture = t.getTextureID();
+        color[0] = (byte)255;
+        color[1] = (byte)255;
+        color[2] = (byte)255;
+        color[3] = (byte)255;
     }
 
     public void update() {
-        this.getPosition().add(velocity);
-        this.spriteBatch.bbox = new Vector4(this.getPosition().x, this.getPosition().y, 5, 5);
+        x += vx;
+        y += vy;
     }
 
-    public void render() {
-        this.spriteBatch.render();
+    public void render(SpriteBatch batch) {
+        batch.draw(texture, x, y, sx, sy, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, color);
     }
 
-    public Vector2 getPosition() {
-        return this.position;
-    }
-
-    public void setPosition(Vector2 position) {
-        this.position = position;
-    }
 }

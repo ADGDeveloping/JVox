@@ -8,6 +8,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import com.regrowthStudios.JVox.graphics.SpriteBatch;
 import com.regrowthStudios.JVox.math.vector.Vector2;
 import com.regrowthStudios.JVox.utils.EventUtils.MouseEvents;
 
@@ -44,10 +45,8 @@ public class ParticleEmitter {
             
             if(timer >= 1) {
                 Particle2D tmp = new Particle2D();
-                tmp.init(particleTexture, new Vector2(MouseEvents.getPosition().x, MouseEvents.getPositionInvY().y),
-                        new Vector2(0, -1));
+                tmp.init(particleTexture, (float)MouseEvents.getPosition().x, (float)MouseEvents.getPositionInvY().y, 5.0f, 5.0f, 0.0f, -1.0f);
                 tmp.maxLife = rand.nextInt((500 - 250) + 1) + 250;
-                tmp.base = true;
                 
                 particles.add(tmp);
                 
@@ -61,30 +60,12 @@ public class ParticleEmitter {
 
                 if (tmp != null) {
                     if (tmp.currentLife > tmp.maxLife) {
-                        if(tmp.base)
-                        {
-                            for(int i2 = 0; i2 < 100; i2++)
-                            {
-                                Particle2D tmp2 = new Particle2D();
-                                tmp2.init(particleTexture, new Vector2((int)tmp.getPosition().x, (int)tmp.getPosition().y),
-                                        new Vector2((rand.nextInt((100 - -100) + 1) + -100) / 250.F,
-                                                (rand.nextInt((100 - -100) + 1) + -100) / 250.F));
-                                tmp2.maxLife = rand.nextInt((500 - 10) + 1) + 10;
-
-                                particles.add(tmp2);
-                            }
-                        }
-                        
+                     
                         particles.remove(i);
                         particles.trimToSize();
                     } else {
                         tmp.update();
                         tmp.currentLife++;
-                        
-                        if(!tmp.base)
-                        {
-                            tmp.getPosition().add(0, 0.01F);
-                        }
                     }
                 }
             }
@@ -109,13 +90,13 @@ public class ParticleEmitter {
         }*/
     }
 
-    public void render() {
+    public void render(SpriteBatch batch) {
         for (int i = 0; i < particles.size(); i++) {
             Particle2D tmp = particles.get(i);
 
             if (tmp != null) {
                 //if ((rand.nextInt((10 - 0) + 1) + 0) == 1) {
-                    tmp.render();
+                    tmp.render(batch);
                 //}
             }
         }
