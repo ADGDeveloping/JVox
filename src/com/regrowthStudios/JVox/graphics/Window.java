@@ -6,13 +6,13 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
-import com.regrowthStudios.JVox.math.vector.IVector2;
+import com.regrowthStudios.JVox.math.Vector;
 
 public class Window {
     private String windowTitle = "JVox Application";
-    private IVector2 windowDims = new IVector2(800, 600);
+    private Vector windowDims = new Vector(800, 600);
 
-    public void init(String title, IVector2 dims) {
+    public void init(String title, Vector dims) {
         this.windowTitle = title;
         this.windowDims = dims;
     }
@@ -40,7 +40,7 @@ public class Window {
         }
 
         try {
-            Display.setDisplayMode(new DisplayMode(this.windowDims.x, this.windowDims.y));
+            Display.setDisplayMode(new DisplayMode((int)this.windowDims.x, (int)this.windowDims.y));
             Display.setTitle(this.windowTitle);
             Display.create();
         } catch (LWJGLException e) {
@@ -50,7 +50,7 @@ public class Window {
         }
     }
     
-    public IVector2 getDimensions()
+    public Vector getDimensions()
     {
         return this.windowDims;
     }

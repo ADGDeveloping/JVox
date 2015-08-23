@@ -1,24 +1,18 @@
 package com.regrowthStudios.JVox.graphics;
 
 import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
+import java.nio.ByteOrder;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Vector;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
-import org.newdawn.slick.opengl.Texture;
 
-import com.regrowthStudios.JVox.math.vector.Vector4;
 import com.regrowthStudios.JVox.utils.VBOUtils;
-
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Vector;
 
 /**
  * Created by brb55_000 on 4/20/2015.
@@ -43,7 +37,7 @@ public class SpriteBatch {
     // Constants
     private static final int BYTES_PER_VERTEX = 20;
     private static final int VERTS_PER_QUAD = 6;
-    
+
     Shader shader = null;
 
     Vector<SpriteBatchGlyph> m_glyphs = new Vector<SpriteBatchGlyph>();
@@ -54,13 +48,13 @@ public class SpriteBatch {
         shader.load("./data/shaders/BasicTexture.vert", "./data/shaders/BasicTexture.frag");
         if (shader.valid == false) {
             try {
-                throw(new Exception("Failed to load BasicTexture program"));
+                throw (new Exception("Failed to load BasicTexture program"));
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
-        
+
         m_vbo = VBOUtils.createVBOID();
 
         int ph = shader.programID;
@@ -70,7 +64,7 @@ public class SpriteBatch {
         m_TCoordHandle = GL20.glGetAttribLocation(ph, "vTextCoords");
         m_textureHandle = GL20.glGetAttribLocation(ph, "texture");
     }
-    
+
     // Begins a frame of rendering
     public void begin() {
         m_glyphs.clear();
@@ -111,12 +105,12 @@ public class SpriteBatch {
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         // Upload uniforms
         GL20.glUniform1i(m_textureHandle, 0);
-        
+
         float identityMatrix[] = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
         java.nio.FloatBuffer tMatrix = BufferUtils.createFloatBuffer(16);
         tMatrix.put(identityMatrix);
         tMatrix.flip();
-        
+
         GL20.glUniformMatrix4(m_MVPMatrixHandle, false, tMatrix);
 
         GL20.glEnableVertexAttribArray(m_positionHandle);
@@ -148,7 +142,7 @@ public class SpriteBatch {
         int error = GL11.glGetError();
         if (error != GL11.GL_NO_ERROR) {
             try {
-                throw(new Exception("OpenGL error " + error));
+                throw (new Exception("OpenGL error " + error));
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -298,5 +292,4 @@ public class SpriteBatch {
         byte b;
         byte a;
     }
-
 }

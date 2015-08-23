@@ -3,8 +3,6 @@ package com.regrowthStudios.JVox.systems.particle;
 import org.newdawn.slick.opengl.Texture;
 
 import com.regrowthStudios.JVox.graphics.SpriteBatch;
-import com.regrowthStudios.JVox.math.vector.Vector2;
-import com.regrowthStudios.JVox.math.vector.Vector4;
 
 public class Particle2D {
     public float x, y;
@@ -25,10 +23,10 @@ public class Particle2D {
         this.sx = sx;
         this.sy = sy;
         texture = t.getTextureID();
-        color[0] = (byte)255;
-        color[1] = (byte)255;
-        color[2] = (byte)255;
-        color[3] = (byte)255;
+        color[0] = (byte) 255;
+        color[1] = (byte) 255;
+        color[2] = (byte) 255;
+        color[3] = (byte) 255;
     }
 
     public void update() {
@@ -39,5 +37,4 @@ public class Particle2D {
     public void render(SpriteBatch batch) {
         batch.draw(texture, x, y, sx, sy, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, color);
     }
-
 }

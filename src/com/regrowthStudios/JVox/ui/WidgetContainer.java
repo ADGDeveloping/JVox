@@ -7,13 +7,13 @@ import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 import com.regrowthStudios.JVox.graphics.SpriteBatch;
-import com.regrowthStudios.JVox.math.vector.IVector2;
-import com.regrowthStudios.JVox.math.vector.Vector4;
+import com.regrowthStudios.JVox.math.Vector;
+import com.regrowthStudios.JVox.math.Vector4;
 import com.regrowthStudios.JVox.utils.EventUtils.EventState;
 import com.regrowthStudios.JVox.utils.EventUtils.MouseEvents;
 
 public class WidgetContainer {
-    private Vector4 bbox = new Vector4(0);
+    private Vector4 bbox = new Vector4();
     private int eventState = EventState.NONE;
     private Texture texture;
     public byte color[] = new byte[4];
@@ -50,10 +50,10 @@ public class WidgetContainer {
     }
 
     public void draw(SpriteBatch batch) {
-        batch.draw(texture.getTextureID(), bbox.x, bbox.y, bbox.z, bbox.w, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, color);
+        batch.draw(texture.getTextureID(), (float)bbox.x, (float)bbox.y, (float)bbox.z, (float)bbox.w, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, color);
     }
 
-    public void update(IVector2 mouseMove, IVector2 mousePos) {
+    public void update(Vector mouseMove, Vector mousePos) {
         eventState = EventState.NONE;
 
         if (this.isInBounds(mousePos.x, mousePos.y)) {
@@ -78,7 +78,7 @@ public class WidgetContainer {
     }
 
     // Functions
-    public boolean isInBounds(int mX, int mY) {
-        return (mX >= bbox.x && mX < bbox.x + bbox.z && mY >= bbox.y && mY < bbox.y + bbox.w);
+    public boolean isInBounds(double x, double y) {
+        return (x >= bbox.x && x < bbox.x + bbox.z && y >= bbox.y && y < bbox.y + bbox.w);
     }
 }

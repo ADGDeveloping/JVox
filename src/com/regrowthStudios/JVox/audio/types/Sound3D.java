@@ -5,7 +5,7 @@ import java.net.MalformedURLException;
 
 import paulscode.sound.SoundSystemConfig;
 
-import com.regrowthStudios.JVox.math.vector.Vector;
+import com.regrowthStudios.JVox.math.Vector3;
 import com.regrowthStudios.JVox.utils.SoundUtils.SoundFlags;
 
 public class Sound3D extends Sound {
@@ -13,9 +13,9 @@ public class Sound3D extends Sound {
      * Standard implementation for 3D sound.
      */
     protected int flags = SoundFlags.NONE;
-    protected Vector position = new Vector(0);
+    protected Vector3 position = new Vector3();
 
-    public void init(int flags, String sn, String fl, String fn, Vector p) {
+    public void init(int flags, String sn, String fl, String fn, Vector3 p) {
         this.flags = flags;
         this.sourceName = sn;
         this.fileLocation = fl;
@@ -30,7 +30,7 @@ public class Sound3D extends Sound {
 
         try {
             this.soundSystem.newSource(priority, this.sourceName, new File(this.fileLocation).toURI().toURL(), this.fileName,
-                    loop, this.position.x, this.position.y, this.position.z, SoundSystemConfig.ATTENUATION_ROLLOFF,
+                    loop, (float)this.position.x, (float)this.position.y, (float)this.position.z, SoundSystemConfig.ATTENUATION_ROLLOFF,
                     SoundSystemConfig.getDefaultRolloff());
         } catch (MalformedURLException e) {
             e.printStackTrace();

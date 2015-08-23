@@ -6,7 +6,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import com.regrowthStudios.JVox.math.vector.IVector2;
+import com.regrowthStudios.JVox.math.Vector;
 
 public class EventUtils {
     public static class KeyboardEvents {
@@ -40,16 +40,16 @@ public class EventUtils {
             return Mouse.getEventButton();
         }
 
-        public static IVector2 getPosition() {
-            return new IVector2(Mouse.getX(), Mouse.getY());
-        }
-        
-        public static IVector2 getPositionInvY() {
-            return new IVector2(Mouse.getX(), Display.getHeight() - Mouse.getY());
+        public static Vector getPosition() {
+            return new Vector(Mouse.getX(), Mouse.getY());
         }
 
-        public static IVector2 getMove() {
-            return new IVector2(Mouse.getDX(), -Mouse.getDY());
+        public static Vector getPositionInvY() {
+            return new Vector(Mouse.getX(), Display.getHeight() - Mouse.getY());
+        }
+
+        public static Vector getMove() {
+            return new Vector(Mouse.getDX(), -Mouse.getDY());
         }
 
         public static boolean isMouseGrabbed() {
@@ -64,8 +64,8 @@ public class EventUtils {
             Mouse.setClipMouseCoordinatesToWindow(!Mouse.isClipMouseCoordinatesToWindow());
         }
 
-        public static void setMousePosition(IVector2 pos) {
-            Mouse.setCursorPosition(pos.x, pos.y);
+        public static void setMousePosition(Vector pos) {
+            Mouse.setCursorPosition((int)pos.x, (int)pos.y);
         }
 
         public static void setCursor(Cursor cursor) {
@@ -75,9 +75,8 @@ public class EventUtils {
                 e.printStackTrace();
             }
         }
-        
-        public static void updateCursor()
-        {
+
+        public static void updateCursor() {
             Mouse.updateCursor();
         }
     }
