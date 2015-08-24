@@ -12,7 +12,7 @@ import com.regrowthStudios.JVox.world.gen.GenComponentTerrain;
 
 public class ChunkManager2D {
     private Camera2D camera = null;
-    private int chunkRadius = 3, objectSize = 5;
+    private int chunkRadius = 3, objectSize = 2;
     public HashMap<Vector, Chunk2D> activeChunks = new HashMap<Vector, Chunk2D>();
     public ArrayList<GenComponent> genComponents = new ArrayList<GenComponent>();
 
@@ -25,15 +25,13 @@ public class ChunkManager2D {
     }
 
     public void update() {
-        Vector pos = this.toLocal(new Vector(Math.round(camera.getPosition().x), Math.round(camera.getPosition().y)));
+        Vector pos = this.toLocal(new Vector(Math.round(camera.getPosition().x / (double)objectSize), Math.round(camera.getPosition().y / (double)objectSize)));
 
-        for (int j = (int) pos.y + this.chunkRadius; j > pos.y - (this.chunkRadius * 2); j--) {
-            for (int i = (int) pos.x + this.chunkRadius; i > pos.x - (this.chunkRadius * 2); i--) {
-                double x = (i * 32.0);
-                double y = (j * 32.0);
+        for (int j = (int) pos.y + this.chunkRadius; j >= (int) pos.y - this.chunkRadius; j--) {
+            for (int i = (int) pos.x + this.chunkRadius; i >= (int) pos.x - this.chunkRadius; i--) {
 
-                if (Math.abs(this.camera.getPosition().x - x) <= (32.0 * this.chunkRadius)
-                        && Math.abs(this.camera.getPosition().y - y) <= (32.0 * this.chunkRadius)) {
+                if (Math.abs(pos.x - i) <= (this.chunkRadius)
+                        && Math.abs(pos.y - j) <= (this.chunkRadius)) {
                     Chunk2D c = this.activeChunks.get(new Vector(i, j));
 
                     if (c == null) {
@@ -43,6 +41,12 @@ public class ChunkManager2D {
                         activeChunks.put(new Vector(i, j), c);
                     } else {
                         c.update();
+                    }
+                    
+                    if (c != null && !c.built) {
+                        c.generate(this);
+                        c.build();
+                        c.built = true;
                     }
                 }
                 else
@@ -54,38 +58,19 @@ public class ChunkManager2D {
                 }
             }
         }
-
-        for (int j = (int) pos.y + this.chunkRadius; j > pos.y - (this.chunkRadius * 2); j--) {
-            for (int i = (int) pos.x + this.chunkRadius; i > pos.x - (this.chunkRadius * 2); i--) {
-                double x = (i * 32.0);
-                double y = (j * 32.0);
-
-                if (Math.abs(this.camera.getPosition().x - x) <= (32.0 * this.chunkRadius)
-                        && Math.abs(this.camera.getPosition().y - y) <= (32.0 * this.chunkRadius)) {
-                    Chunk2D c = this.activeChunks.get(new Vector(i, j));
-
-                    if (c != null && !c.built) {
-                        c.generate(this);
-                        c.build();
-                        c.built = true;
-
-                        activeChunks.put(new Vector(i, j), c);
-                    }
-                }
-            }
-        }
     }
 
     public void render(SpriteBatch batch) {
+        double chunkWidth = objectSize * 32.0;
         Vector pos = this.toLocal(new Vector(Math.round(camera.getPosition().x), Math.round(camera.getPosition().y)));
 
         for (int j = (int) pos.y + this.chunkRadius; j > pos.y - (this.chunkRadius * 2); j--) {
             for (int i = (int) pos.x + this.chunkRadius; i > pos.x - (this.chunkRadius * 2); i--) {
-                double x = (i * 32);
-                double y = (j * 32);
+                double x = (i * chunkWidth);
+                double y = (j * chunkWidth);
 
-                if (Math.abs(this.camera.getPosition().x - x) <= (32.0 * this.chunkRadius)
-                        && Math.abs(this.camera.getPosition().y - y) <= (32.0 * this.chunkRadius)) {
+                if (Math.abs(this.camera.getPosition().x - x) <= (chunkWidth * this.chunkRadius)
+                        && Math.abs(this.camera.getPosition().y - y) <= (chunkWidth * this.chunkRadius)) {
                     Chunk2D c = this.activeChunks.get(new Vector(i, j));
 
                     if (c != null) {
