@@ -1,13 +1,10 @@
 package com.regrowthStudios.JVox.ui;
 
-import java.io.IOException;
-
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
 
 import com.regrowthStudios.JVox.graphics.SpriteBatch;
 import com.regrowthStudios.JVox.math.Vector;
+import com.regrowthStudios.JVox.systems.content.ResourceSystem;
 import com.regrowthStudios.JVox.utils.EventUtils.EventState;
 
 public class Button extends WidgetContainer {
@@ -15,14 +12,17 @@ public class Button extends WidgetContainer {
     public Texture texture;
 
     public Button() {
-        try {
-            upTexture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("data/textures/up.png"));
-            downTexture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("data/textures/down.png"));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        texture = upTexture;
+        this.upTexture = (Texture) ResourceSystem.getResource("textures.button.up");
+        this.downTexture = (Texture) ResourceSystem.getResource("textures.button.down");
+
+        this.texture = this.upTexture;
+    }
+
+    @Override
+    public void draw(SpriteBatch batch) {
+        batch.draw(this.texture.getTextureID(), (float) this.bbox.x + (float) this.bbox.z * 0.5f, (float) this.bbox.y
+                + (float) this.bbox.w * 0.5f, (float) this.bbox.z, (float) this.bbox.w, 0.0f, 0.0f, this.texture.getWidth(),
+                this.texture.getHeight(), 0.0f, this.color);
     }
 
     @Override
@@ -34,11 +34,5 @@ public class Button extends WidgetContainer {
         } else {
             texture = upTexture;
         }
-    }
-
-    @Override
-    public void draw(SpriteBatch batch) {
-        batch.draw(texture.getTextureID(), (float)bbox.x + (float)bbox.z * 0.5f, (float) bbox.y + (float)bbox.w * 0.5f, (float) bbox.z, (float) bbox.w, 0.0f, 0.0f,
-                texture.getWidth(), texture.getHeight(), 0.0f, color);
     }
 }

@@ -1,11 +1,6 @@
 package com.regrowthStudios.JVox.systems.particle;
 
-import org.newdawn.slick.opengl.Texture;
-
-import com.regrowthStudios.JVox.graphics.SpriteBatch;
-
 public class Particle2D {
-    
     public float x, y;
     protected float vx, vy;
     protected float sx, sy;

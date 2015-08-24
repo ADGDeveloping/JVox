@@ -4,48 +4,48 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.ARBFragmentShader;
 import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.ARBVertexShader;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
 
 public class Shader {
     public int programID = 0;
     public boolean valid = false;
-    
+
     public void load(String vert, String frag) {
         int vertID = 0;
         int fragID = 0;
         try {
-            vertID = createShader(vert, ARBVertexShader.GL_VERTEX_SHADER_ARB);
-            fragID = createShader(frag, ARBFragmentShader.GL_FRAGMENT_SHADER_ARB);
-        } catch(Exception exc) {
+            vertID = createShader(vert.replace(" ", ""), ARBVertexShader.GL_VERTEX_SHADER_ARB);
+            fragID = createShader(frag.replace(" ", ""), ARBFragmentShader.GL_FRAGMENT_SHADER_ARB);
+        } catch (Exception exc) {
             exc.printStackTrace();
             return;
         } finally {
-            if(vertID == 0 || fragID == 0) return;
+            if (vertID == 0 || fragID == 0)
+                return;
         }
-        
+
         programID = ARBShaderObjects.glCreateProgramObjectARB();
-        if (programID == 0) return;
-        
+        if (programID == 0)
+            return;
+
         ARBShaderObjects.glAttachObjectARB(programID, vertID);
         ARBShaderObjects.glAttachObjectARB(programID, fragID);
-        
+
         ARBShaderObjects.glLinkProgramARB(programID);
         if (ARBShaderObjects.glGetObjectParameteriARB(programID, ARBShaderObjects.GL_OBJECT_LINK_STATUS_ARB) == GL11.GL_FALSE) {
             System.err.println(getLogInfo(programID));
             return;
         }
-        
+
         ARBShaderObjects.glValidateProgramARB(programID);
         if (ARBShaderObjects.glGetObjectParameteriARB(programID, ARBShaderObjects.GL_OBJECT_VALIDATE_STATUS_ARB) == GL11.GL_FALSE) {
             System.err.println(getLogInfo(programID));
             return;
         }
-        
+
         valid = true;
     }
 
@@ -60,10 +60,9 @@ public class Shader {
             ARBShaderObjects.glShaderSourceARB(shaderID, readFileAsString(filename));
             ARBShaderObjects.glCompileShaderARB(shaderID);
 
-            if (ARBShaderObjects.glGetObjectParameteriARB(shaderID,
-                    ARBShaderObjects.GL_OBJECT_COMPILE_STATUS_ARB) == GL11.GL_FALSE)
+            if (ARBShaderObjects.glGetObjectParameteriARB(shaderID, ARBShaderObjects.GL_OBJECT_COMPILE_STATUS_ARB) == GL11.GL_FALSE)
                 throw new RuntimeException("Error creating shader: " + getLogInfo(shaderID));
-             return shaderID;
+            return shaderID;
         } catch (Exception exc) {
             ARBShaderObjects.glDeleteObjectARB(shaderID);
             throw exc;

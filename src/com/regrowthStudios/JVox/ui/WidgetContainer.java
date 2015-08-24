@@ -1,11 +1,5 @@
 package com.regrowthStudios.JVox.ui;
 
-import java.io.IOException;
-
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
-
 import com.regrowthStudios.JVox.graphics.SpriteBatch;
 import com.regrowthStudios.JVox.math.Vector;
 import com.regrowthStudios.JVox.math.Vector4;
@@ -24,17 +18,15 @@ public class WidgetContainer {
     // Override
     public void init(Vector4 bbox) {
         this.bbox = bbox;
-        
+
         // Set color
-        color[0] = (byte)255;
-        color[1] = (byte)255;
-        color[2] = (byte)255;
-        color[3] = (byte)255;
+        color[0] = (byte) 255;
+        color[1] = (byte) 255;
+        color[2] = (byte) 255;
+        color[3] = (byte) 255;
     }
 
-    public void draw(SpriteBatch batch) {
-        // Empty
-    }
+    public void draw(SpriteBatch batch) { }
 
     public void update(Vector mouseMove, Vector mousePos) {
         eventState = EventState.NONE;

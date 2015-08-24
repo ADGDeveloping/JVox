@@ -2,7 +2,6 @@ package com.regrowthStudios.JVox.graphics;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.DoubleBuffer;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
@@ -14,6 +13,7 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 
 import com.regrowthStudios.JVox.math.Matrix4;
+import com.regrowthStudios.JVox.systems.content.ResourceSystem;
 import com.regrowthStudios.JVox.utils.VBOUtils;
 
 /**
@@ -46,16 +46,7 @@ public class SpriteBatch {
     Vector<RenderBatch> m_renderBatches = new Vector<RenderBatch>();
 
     public void init() {
-        shader = new Shader();
-        shader.load("./data/shaders/BasicTexture.vert", "./data/shaders/BasicTexture.frag");
-        if (shader.valid == false) {
-            try {
-                throw (new Exception("Failed to load BasicTexture program"));
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+        shader = (Shader)ResourceSystem.getResource("shaders.basic.texture");
 
         m_vbo = VBOUtils.createVBOID();
 
