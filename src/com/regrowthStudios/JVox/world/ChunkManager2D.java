@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import com.regrowthStudios.JVox.graphics.Camera;
 import com.regrowthStudios.JVox.graphics.Camera2D;
 import com.regrowthStudios.JVox.graphics.SpriteBatch;
 import com.regrowthStudios.JVox.math.Vector;
@@ -16,6 +17,7 @@ public class ChunkManager2D {
     public HashMap<Vector, Chunk2D> activeChunks = new HashMap<Vector, Chunk2D>();
     public ArrayList<GenComponent> genComponents = new ArrayList<GenComponent>();
     int centerX, centerY;
+    SpriteBatch spriteBatch = new SpriteBatch();
 
     public ChunkManager2D(Camera2D camera) {
         this.camera = camera;
@@ -38,9 +40,10 @@ public class ChunkManager2D {
                 c.build();
                 c.built = true;
                 activeChunks.put(new Vector(x, y), c);
-                System.out.println(new Vector(x, y).x + " " + new Vector(x, y).y);
             }
         }
+        spriteBatch.init();
+        updateMesh();
     }
 
     public void update() {
@@ -48,8 +51,10 @@ public class ChunkManager2D {
 
         int ncx = (int)pos.x;
         int ncy = (int)pos.y;
+        boolean needsMeshUpdate = false;
         
         while (centerX != ncx) {
+            needsMeshUpdate = true;
             if (ncx < centerX) {
                 // Remove chunks from right and add to left
                 for (int y = -this.chunkRadius; y <= this.chunkRadius; y++) {
@@ -69,7 +74,6 @@ public class ChunkManager2D {
                 }
                 // Going left
                 centerX--;
-                System.out.println("L");
             } else {
                 // Remove chunks from left and add to right
                 for (int y = -this.chunkRadius; y <= this.chunkRadius; y++) {
@@ -89,10 +93,10 @@ public class ChunkManager2D {
                 }
                 // Going right
                 centerX++;
-                System.out.println("R");
             }
         }
         while (centerY != ncy) {
+            needsMeshUpdate = true;
             if (ncy < centerY) {
                 // Remove chunks from top and add to bottom
                 for (int x = -this.chunkRadius; x <= this.chunkRadius; x++) {
@@ -112,7 +116,6 @@ public class ChunkManager2D {
                 }
                 // Going down
                 centerY--;
-                System.out.println("D");
             } else {
                 // Remove chunks from bottom and add to top
                 for (int x = -this.chunkRadius; x <= this.chunkRadius; x++) {
@@ -132,15 +135,24 @@ public class ChunkManager2D {
                 }
                 // Going right
                 centerY++;
-                System.out.println("U");
             }
+        }
+        
+        if (needsMeshUpdate) {
+            updateMesh();
         }
     }
 
-    public void render(SpriteBatch batch) {
+    public void render(Camera camera) {
+        spriteBatch.render(camera);
+    }
+    
+    public void updateMesh() {
+        spriteBatch.begin();
         for (Chunk2D c : this.activeChunks.values()) {
-            c.render(batch, objectSize);
+            c.render(spriteBatch, objectSize);
         }
+        spriteBatch.end();
     }
 
     /* Other functions */
