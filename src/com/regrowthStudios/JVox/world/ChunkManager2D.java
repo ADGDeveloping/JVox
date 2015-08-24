@@ -23,7 +23,11 @@ public class ChunkManager2D {
         Vector pos = this.toLocal(new Vector(Math.round(camera.getPosition().x / (double)objectSize), Math.round(camera.getPosition().y / (double)objectSize)));
 
         centerX = (int)pos.x;
-        centerY = (int)pos.y;
+        centerY = (int)pos.y;      
+    }
+
+    public void init() {
+        this.addComponent(new GenComponentTerrain(0, 0));
         
         // Set up initial chunks
         for (int y = (int) centerY - this.chunkRadius; y <= (int) centerY + this.chunkRadius; y++) {
@@ -37,10 +41,6 @@ public class ChunkManager2D {
                 System.out.println(new Vector(x, y).x + " " + new Vector(x, y).y);
             }
         }
-    }
-
-    public void init() {
-        this.addComponent(new GenComponentTerrain(0, 0));
     }
 
     public void update() {
