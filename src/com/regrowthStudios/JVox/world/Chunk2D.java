@@ -55,12 +55,12 @@ public class Chunk2D {
     }
 
     /* Object Functions */
-    public void setObject(Vector pos, int type) {
-        this.objects[(int) pos.x & (this.CHUNK_WIDTH - 1)][(int) pos.y & (this.CHUNK_HEIGHT - 1)] = type;
+    public void setObject(int x, int y, int type) {
+        this.objects[x][y] = type;
     }
 
-    public int getObject(Vector pos) {
-        return this.objects[(int) pos.x & (this.CHUNK_WIDTH - 1)][(int) pos.y & (this.CHUNK_HEIGHT - 1)];
+    public int getObject(int x, int y) {
+        return this.objects[x][y];
     }
 
     public void destroy() {

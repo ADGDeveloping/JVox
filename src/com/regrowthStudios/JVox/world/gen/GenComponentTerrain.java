@@ -34,16 +34,8 @@ public class GenComponentTerrain extends GenComponent {
                 /*h += 32.F * noise(new Vector(i + (c.position.x * c.CHUNK_WIDTH), j
                         + (c.position.y * c.CHUNK_HEIGHT)), 8, 0.003F, 0.8F);*/
 
-                if (h > (c.position.y * c.CHUNK_HEIGHT))
-                    h -= (c.position.y * c.CHUNK_HEIGHT);
-                else
-                    h = 0;
-
-                if (h > 0) {
-                    for (int y = 0; y < h; y++) {
-                        chunkManager.setObject(new Vector(i + (c.position.x * c.CHUNK_WIDTH), y
-                                + (c.position.y * c.CHUNK_HEIGHT)), 1);
-                    }
+                if (h - (j + c.position.y * c.CHUNK_WIDTH) > 0) {
+                    c.setObject(i, j, 1);
                 }
             }
         }
