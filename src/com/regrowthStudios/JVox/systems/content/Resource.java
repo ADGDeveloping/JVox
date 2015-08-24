@@ -30,8 +30,6 @@ public class Resource {
             Shader s = new Shader();
             s.load(path.split(",")[0], path.split(",")[1]);
 
-            System.out.println(path.split(",")[1]);
-            
             if (!s.valid) {
                 try {
                     throw (new Exception("Failed to load the shader program!"));

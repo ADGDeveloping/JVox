@@ -84,11 +84,11 @@ public class CollisionManager {
     private void collideWithEntity(Entity e1, Entity e2) {
         double MIN_DISTANCEX = (e1.aabb.z / 2.F) + (e2.aabb.z / 2.F);
         double MIN_DISTANCEY = (e1.aabb.w / 2.F) + (e2.aabb.w / 2.F);
-
+        
         {
             Vector newPosition = new Vector(e1.aabb.x, e1.aabb.y);
             Vector centerAgentPos = newPosition.add(new Vector((e1.aabb.z / 2.F), (e1.aabb.w / 2.F)));
-            Vector distVec = VectorHelper.sub(centerAgentPos, new Vector(e2.aabb.x, e2.aabb.y));
+            Vector distVec = VectorHelper.sub(centerAgentPos, new Vector(e2.aabb.x + (e2.aabb.z * 0.5f), e2.aabb.y + (e2.aabb.w * 0.5f)));
 
             double xDepth = (MIN_DISTANCEX - Math.abs(distVec.x)) / 2.F;
             double yDepth = (MIN_DISTANCEY - Math.abs(distVec.y)) / 2.F;
@@ -116,7 +116,7 @@ public class CollisionManager {
         {
             Vector newPosition = new Vector(e2.aabb.x, e2.aabb.y);
             Vector centerAgentPos = newPosition.add(new Vector((e2.aabb.z / 2.F), (e2.aabb.w / 2.F)));
-            Vector distVec = VectorHelper.sub(centerAgentPos, new Vector(e1.aabb.x, e1.aabb.y));
+            Vector distVec = VectorHelper.sub(centerAgentPos, new Vector(e1.aabb.x + (e1.aabb.z * 0.5f), e1.aabb.y + (e1.aabb.w * 0.5f)));
 
             double xDepth = (MIN_DISTANCEX - Math.abs(distVec.x)) / 2.F;
             double yDepth = (MIN_DISTANCEY - Math.abs(distVec.y)) / 2.F;
